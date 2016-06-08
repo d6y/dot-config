@@ -53,20 +53,26 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_section_z = '%4l/%L :%3v'
 
 " Buffer management
-nmap <leader>l :bnext<CR>
-nmap <leader>h :bprevious<CR>
+nmap <C-L> :bnext<CR>
+nmap <C-J> :bnext<CR>
+nmap <BS> :bprevious<CR>
+nmap <C-K> :bprevious<CR>
+
 nmap <leader>b :ls<CR>
+
 nnoremap <silent> <Leader>w :Bclose<CR>
+nmap Q :Bclose<CR>
+
 set hidden
 
 " Window mangagement
-map <C-L> <C-W>l
-map <BS> <C-W>h
-map <C-J> <C-W>j
-map <C-K> <C-W>k
+map <leader>l <C-W>l
+map <leader>h <C-W>h
+map <leader>j <C-W>j
+map <leader>k <C-W>k
 
 " Gitgutter
-" Unmap ,h commands to avoid delay with buffer ,h movement
+" Unmap ,h commands to avoid delay with window ,h movement
 let g:gitgutter_map_keys = 0
 
 " Moving lines
