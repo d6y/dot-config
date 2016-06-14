@@ -35,7 +35,8 @@ nmap <C-p> :FZF<CR>
 
 " ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
-nmap <leader>f :Ack<CR> " Grep using word under cursor
+nmap <leader>f :Ack!<CR>      " Search using word under cursor
+map <leader>d :Ack! ""<left>
 " let g:ackpreview = 1
 
 " Airline
@@ -54,9 +55,7 @@ let g:airline_section_z = '%4l/%L :%3v'
 
 " Buffer management
 nmap <C-L> :bnext<CR>
-nmap <C-J> :bnext<CR>
 nmap <BS> :bprevious<CR>
-nmap <C-K> :bprevious<CR>
 
 nmap <leader>b :ls<CR>
 
@@ -70,6 +69,9 @@ map <leader>l <C-W>l
 map <leader>h <C-W>h
 map <leader>j <C-W>j
 map <leader>k <C-W>k
+
+nmap <C-K> <C-W>k
+nmap <C-J> <C-W>j
 
 " Gitgutter
 " Unmap ,h commands to avoid delay with window ,h movement
