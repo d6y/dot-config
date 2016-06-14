@@ -19,6 +19,7 @@ vim-go/ - * (HEAD detached at v1.6)
   master origin	git@github.com:fatih/vim-go.git (fetch)
 vim-multiple-cursors/ - * master origin	git@github.com:terryma/vim-multiple-cursors.git (fetch)
 vim-pencil/ - * master origin	git@github.com:reedes/vim-pencil.git (fetch)
+vim-repeat/ - * master origin	git@github.com:tpope/vim-repeat.git (fetch)
 vim-sbt-quickfix/ -  
 vim-scala/ - * master origin	git@github.com:derekwyatt/vim-scala.git (fetch)
 vim-signature/ - * master origin	git@github.com:kshenoy/vim-signature.git (fetch)
