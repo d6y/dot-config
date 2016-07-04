@@ -1,0 +1,134 @@
+
+if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
+  . /usr/local/git/contrib/completion/git-completion.bash
+fi
+
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+
+if [ -f ~/bin/sensible.bash ]; then
+   source ~/bin/sensible.bash
+fi
+
+eval $(thefuck --alias)
+
+# Preferences
+
+export BROWSER=firefox
+
+# VI settings
+export EDITOR=nvim
+export VISUAL=nvim
+alias vim=nvim
+alias vi=nvim
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export NVIM_LISTEN_ADDRESS=/tmp/nvim.sock
+
+# -- GIT SETTINGS ----------
+export VERSIONER_PERL_PREFER_32_BIT=yes
+
+alias fir=git ; alias gut=git
+alias wow="git status"
+alias so=git
+alias such=git
+alias very=git
+alias much=git
+alias log="git log --stat"
+alias gitcleanup="git branch --merged master | grep -v '^*\|master' | xargs -n 1 git branch -d"
+
+alias gits="git config user.email richard@spiralarm.com"
+alias gitd="git config user.email richard@dallaway.com"
+alias gitu="git config user.email richard@underscoreconsulting.com"
+
+alias gbr='git for-each-ref --sort="-authordate:iso8601" --format=" %(authordate:iso8601)%09%(refname:short)" refs/heads'
+
+GIT_PS1_SHOWDIRTYSTATE=true
+
+# -- NVIDA --
+
+export PATH=/Developer/NVIDIA/CUDA-7.5/bin:$PATH
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.5/lib:$DYLD_LIBRARY_PATH
+
+# -- HASKELL, IDIRS
+export PATH=$PATH:$HOME/Library/Haskell/bin
+alias idris=/Users/richard/Library/Haskell/ghc-7.10.2/lib/idris-0.10/bin/idris
+
+# Add GHC 7.8.4 to the PATH, via https://ghcformacosx.github.io/
+export GHC_DOT_APP="/Applications/ghc-7.8.4.app"
+if [ -d "$GHC_DOT_APP" ]; then
+  export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
+fi
+
+# -- SBT / SCALA / JAVA -----
+
+export REBEL_HOME=$HOME/opt/zeroturnaround/jrebel
+export REBEL_JAR=$REBEL_HOME/jrebel.jar
+export WITH_REBEL="-Drebel.lift_plugin=true -Drebel.license=$HOME/opt/zeroturnaround/jrebel.lic -noverify -javaagent:$REBEL_JAR"
+
+# See also: /usr/local/etc/sbtopts
+# sbt -J-Xmx2g
+#export SBT_OPTS="-Xmx2048m"
+
+export JAVA_OPTS="-Dfile.encoding=utf8"
+export ANT_OPTS="-Xmx1024M"
+#export JAVA_OPTS="-Xmx2G -XX:MaxMetaspaceSize=2G -XX:+CMSClassUnloadingEnabled -Dfile.encoding=utf8"
+
+export JAVA6_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
+export JAVA7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/
+
+usejava7 () {
+  export JAVA_HOME=$JAVA7_HOME
+  export PATH=$JAVA7_HOME/bin:$PATH
+}
+
+usejava6 () {
+  export JAVA_HOME=$JAVA6_HOME
+  export PATH=$JAVA6_HOME/bin:$PATH
+}
+
+alias jmc=$JAVA_HOME/bin/jmc
+
+# -- OTHER LANGUAGES -------
+
+export GOPATH=$HOME/Developer/go
+export PATH=$PATH:$GOPATH/bin
+
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+export NVM_DIR="/Users/richard/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# -- UTILITIES -------------
+
+alias serve="python -m SimpleHTTPServer 8000"
+alias mou="open -a mou"
+alias fixow='/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user;killall Finder;echo "Open With has been rebuilt, Finder will relaunch"'
+
+# -- AWS ------------------
+
+export EC2_CERT=$HOME/opt/amazon/spiralarm/2010/cert-DLHYF5HIJOXAPTPLFOXPUUXSWGKORWNL.pem
+export EC2_PRIVATE_KEY=$HOME/opt/amazon/spiralarm/2010/sakey
+alias sshstage="ssh -i $EC2_PRIVATE_KEY ubuntu@staging"
+alias sshprod="ssh -i $EC2_PRIVATE_KEY ubuntu@production"
+alias scp2="scp -i $EC2_PRIVATE_KEY"
+
+# -- DATABASES --------------
+export MONGO_HOME=$HOME/opt/mongodb-osx-x86_64-3.0.4
+export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
+export PATH=$PATH:$MONGO_HOME/bin
+
+# -- PATH AND SHELL PREFS ---
+export PATH=$JAVA_HOME/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$PATH:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin
+export PATH=$PATH:/Users/richard/Developer/dotty/bin
+export PATH=$PATH:/Users/richard/bin
+
+PS1='\[\033[34m\]\W\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
+
+export TERM='xterm-256color'
+
