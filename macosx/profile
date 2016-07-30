@@ -61,19 +61,12 @@ if [ -d "$GHC_DOT_APP" ]; then
   export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
 fi
 
-# -- SBT / SCALA / JAVA -----
+# -- JVM -----
 
-export REBEL_HOME=$HOME/opt/zeroturnaround/jrebel
-export REBEL_JAR=$REBEL_HOME/jrebel.jar
-export WITH_REBEL="-Drebel.lift_plugin=true -Drebel.license=$HOME/opt/zeroturnaround/jrebel.lic -noverify -javaagent:$REBEL_JAR"
-
-# See also: /usr/local/etc/sbtopts
-# sbt -J-Xmx2g
-#export SBT_OPTS="-Xmx2048m"
+export SCALA_HOME=/opt/scala/scala-2.12.0-M5
+export DOTTY_HOME=/opt/dotty
 
 export JAVA_OPTS="-Dfile.encoding=utf8"
-export ANT_OPTS="-Xmx1024M"
-#export JAVA_OPTS="-Xmx2G -XX:MaxMetaspaceSize=2G -XX:+CMSClassUnloadingEnabled -Dfile.encoding=utf8"
 
 export JAVA6_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
 export JAVA7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home
@@ -116,16 +109,14 @@ alias sshstage="ssh -i $EC2_PRIVATE_KEY ubuntu@staging"
 alias sshprod="ssh -i $EC2_PRIVATE_KEY ubuntu@production"
 alias scp2="scp -i $EC2_PRIVATE_KEY"
 
-# -- DATABASES --------------
-export MONGO_HOME=$HOME/opt/mongodb-osx-x86_64-3.0.4
-export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
-export PATH=$PATH:$MONGO_HOME/bin
 
 # -- PATH AND SHELL PREFS ---
 export PATH=$JAVA_HOME/bin:$PATH
+export PATH=$SCALA_HOME/bin:$PATH
+export PATH=$DOTTY_HOME/bin:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 export PATH=$PATH:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin
-export PATH=$PATH:/Users/richard/Developer/dotty/bin
 export PATH=$PATH:/Users/richard/bin
 
 PS1='\[\033[34m\]\W\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
