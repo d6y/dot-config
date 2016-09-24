@@ -30,6 +30,13 @@ let mapleader = ","
 " <C-a> and <C-x> assume decimal (not octal):
 set nrformats=
 
+" Case insenstive search
+set ignorecase
+set smartcase
+
+" Tab completion like bash
+set wildmode=longest,list
+
 " FZF
 nmap <C-p> :FZF<CR>
 
@@ -95,22 +102,24 @@ set expandtab       " tabs are spaces
 map <Leader>s :w<CR>
 map <Leader>S :wa<CR>
 
+" Scala plugin
+" The syntastic scala checkers are too slow for me:
+let g:syntastic_scala_checkers = []
+
 " ENSIME Settings
-au FileType scala nnoremap <LocalLeader>g :EnDeclaration<CR>
-au FileType scala nnoremap <LocalLeader>G :EnDeclarationSplit<CR>
-au FileType scala nnoremap <LocalLeader>t :EnType<CR>
-au FileType scala nnoremap <LocalLeader>T :EnTypeCheck<CR>
-" au BufWritePost *.scala :EnTypeCheck
+" au FileType scala nnoremap <LocalLeader>g :EnDeclaration<CR>
+" au FileType scala nnoremap <LocalLeader>G :EnDeclarationSplit<CR>
+" au FileType scala nnoremap <LocalLeader>t :EnType<CR>
+" au FileType scala nnoremap <LocalLeader>T :EnTypeCheck<CR>
+"" au BufWritePost *.scala :EnTypeCheck
 let g:syntastic_full_redraws=0 " Flickering screen fix?
 let g:syntastic_ignore_files = ['\m\.sbt$']
 
 " https://github.com/aloiscochard/sarsi
 "call rpcstart('sarsi-nvim')
 
-" NVIM terminal
-tnoremap <Esc> <C-\><C-n>
-
 " GO
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+" let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+" let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
 

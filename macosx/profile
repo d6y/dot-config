@@ -95,16 +95,18 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export NVM_DIR="/Users/richard/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+
 # -- UTILITIES -------------
 
 alias serve="python -m SimpleHTTPServer 8000"
 alias mou="open -a mou"
 alias fixow='/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user;killall Finder;echo "Open With has been rebuilt, Finder will relaunch"'
+alias laclean="rm -f *.log *.out *.fls *.aux *.fdb_latexmk *.toc"
 
 # -- AWS ------------------
 
-export EC2_CERT=$HOME/opt/amazon/spiralarm/2010/cert-DLHYF5HIJOXAPTPLFOXPUUXSWGKORWNL.pem
-export EC2_PRIVATE_KEY=$HOME/opt/amazon/spiralarm/2010/sakey
+export EC2_CERT=/opt/amazon/spiralarm/2010/cert-DLHYF5HIJOXAPTPLFOXPUUXSWGKORWNL.pem
+export EC2_PRIVATE_KEY=/opt/amazon/spiralarm/2010/sakey
 alias sshstage="ssh -i $EC2_PRIVATE_KEY ubuntu@staging"
 alias sshprod="ssh -i $EC2_PRIVATE_KEY ubuntu@production"
 alias scp2="scp -i $EC2_PRIVATE_KEY"
@@ -114,8 +116,9 @@ alias scp2="scp -i $EC2_PRIVATE_KEY"
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$DOTTY_HOME/bin:$PATH
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$PATH:/opt/mongodb-osx-x86_64-3.0.4/bin/
 export PATH=$PATH:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin
 export PATH=$PATH:/Users/richard/bin
 
@@ -123,3 +126,5 @@ PS1='\[\033[34m\]\W\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
 
 export TERM='xterm-256color'
 
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
