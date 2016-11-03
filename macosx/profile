@@ -21,8 +21,6 @@ export BROWSER=firefox
 # VI settings
 export EDITOR=nvim
 export VISUAL=nvim
-alias vim=nvim
-alias vi=nvim
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export NVIM_LISTEN_ADDRESS=/tmp/nvim.sock
 
@@ -46,24 +44,12 @@ alias gbr='git for-each-ref --sort="-authordate:iso8601" --format=" %(authordate
 
 GIT_PS1_SHOWDIRTYSTATE=true
 
-# -- NVIDA --
-
-export PATH=/Developer/NVIDIA/CUDA-7.5/bin:$PATH
-export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.5/lib:$DYLD_LIBRARY_PATH
-
-# -- HASKELL, IDIRS
-export PATH=$PATH:$HOME/Library/Haskell/bin
-alias idris=/Users/richard/Library/Haskell/ghc-7.10.2/lib/idris-0.10/bin/idris
-
-# Add GHC 7.8.4 to the PATH, via https://ghcformacosx.github.io/
-export GHC_DOT_APP="/Applications/ghc-7.8.4.app"
-if [ -d "$GHC_DOT_APP" ]; then
-  export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
-fi
+# Mac nonsense
+alias fixcamera="sudo killall VDCAssistant"
 
 # -- JVM -----
 
-export SCALA_HOME=/opt/scala/scala-2.12.0-M5
+export SCALA_HOME=/opt/scala/scala-2.12.0
 export DOTTY_HOME=/opt/dotty
 
 export JAVA_OPTS="-Dfile.encoding=utf8"
