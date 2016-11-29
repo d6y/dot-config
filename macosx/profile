@@ -19,10 +19,10 @@ eval $(thefuck --alias)
 export BROWSER=firefox
 
 # VI settings
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 export FZF_DEFAULT_COMMAND='ag -g ""'
-export NVIM_LISTEN_ADDRESS=/tmp/nvim.sock
+#export NVIM_LISTEN_ADDRESS=/tmp/nvim.sock
 
 # -- GIT SETTINGS ----------
 export VERSIONER_PERL_PREFER_32_BIT=yes
@@ -54,38 +54,22 @@ export DOTTY_HOME=/opt/dotty
 
 export JAVA_OPTS="-Dfile.encoding=utf8"
 
-export JAVA6_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
-export JAVA7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/
-
-usejava7 () {
-  export JAVA_HOME=$JAVA7_HOME
-  export PATH=$JAVA7_HOME/bin:$PATH
-}
-
-usejava6 () {
-  export JAVA_HOME=$JAVA6_HOME
-  export PATH=$JAVA6_HOME/bin:$PATH
-}
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/
 
 alias jmc=$JAVA_HOME/bin/jmc
+
+# -- HASKELL --
+
+export GHCI_PATH=/Users/richard/.stack/programs/x86_64-osx/ghc-8.0.1
+export STACK_INSTALL_PATH=/Users/richard/.local/bin
 
 # -- OTHER LANGUAGES -------
 
 export GOPATH=$HOME/Developer/go
 export PATH=$PATH:$GOPATH/bin
 
-export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-export NVM_DIR="/Users/richard/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-
 # -- UTILITIES -------------
 
-alias serve="python -m SimpleHTTPServer 8000"
-alias mou="open -a mou"
 alias fixow='/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user;killall Finder;echo "Open With has been rebuilt, Finder will relaunch"'
 alias laclean="rm -f *.log *.out *.fls *.aux *.fdb_latexmk *.toc"
 
@@ -97,20 +81,17 @@ alias sshstage="ssh -i $EC2_PRIVATE_KEY ubuntu@staging"
 alias sshprod="ssh -i $EC2_PRIVATE_KEY ubuntu@production"
 alias scp2="scp -i $EC2_PRIVATE_KEY"
 
-
 # -- PATH AND SHELL PREFS ---
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$DOTTY_HOME/bin:$PATH
+export PATH=$GHCI_PATH/bin:$STACK_INSTALL_PATH:$PATH
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$PATH:/opt/mongodb-osx-x86_64-3.0.4/bin/
-export PATH=$PATH:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin
 export PATH=$PATH:/Users/richard/bin
 
 PS1='\[\033[34m\]\W\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
 
 export TERM='xterm-256color'
-
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

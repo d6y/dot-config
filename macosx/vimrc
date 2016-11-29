@@ -23,10 +23,6 @@ augroup END
 set rnu
 set nu
 
-" Keys
-let maplocalleader = "\\"
-let mapleader = ","
-
 " <C-a> and <C-x> assume decimal (not octal):
 set nrformats=
 
@@ -62,7 +58,8 @@ let g:airline_section_z = '%4l/%L :%3v'
 
 " Buffer management
 nmap <C-L> :bnext<CR>
-nmap <BS> :bprevious<CR>
+nmap <BS> :bprevious<CR> " neovim
+nmap  :bprevious<CR>   " vim
 
 nmap <leader>b :ls<CR>
 
@@ -107,16 +104,13 @@ map <Leader>S :wa<CR>
 let g:syntastic_scala_checkers = []
 
 " ENSIME Settings
-" au FileType scala nnoremap <LocalLeader>g :EnDeclaration<CR>
-" au FileType scala nnoremap <LocalLeader>G :EnDeclarationSplit<CR>
-" au FileType scala nnoremap <LocalLeader>t :EnType<CR>
-" au FileType scala nnoremap <LocalLeader>T :EnTypeCheck<CR>
+au FileType scala nnoremap <LocalLeader>g :EnDeclaration<CR>
+au FileType scala nnoremap <LocalLeader>G :EnDeclarationSplit<CR>
+au FileType scala nnoremap <LocalLeader>t :EnType<CR>
+au FileType scala nnoremap <LocalLeader>T :EnTypeCheck<CR>
 "" au BufWritePost *.scala :EnTypeCheck
 let g:syntastic_full_redraws=0 " Flickering screen fix?
 let g:syntastic_ignore_files = ['\m\.sbt$']
-
-" https://github.com/aloiscochard/sarsi
-"call rpcstart('sarsi-nvim')
 
 " GO
 " let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
