@@ -1,5 +1,5 @@
 #/bin/bash
-cd ~/.vim/bundle
+cd ~/.vim/pack/bundle/start/
 for i in `ls -p`; do
   cd "$i"
   echo "$i - `git branch` `git remote -v | grep origin | head -1`"

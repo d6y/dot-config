@@ -1,93 +1,59 @@
 
-if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
-  . /usr/local/git/contrib/completion/git-completion.bash
-fi
-
-
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
-fi
-
-if [ -f ~/bin/sensible.bash ]; then
-   source ~/bin/sensible.bash
-fi
-
-eval $(thefuck --alias)
-
-# Preferences
-
-export BROWSER=firefox
-
 # VI settings
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=vim
+export VISUAL=vim
 export FZF_DEFAULT_COMMAND='ag -g ""'
-export NVIM_LISTEN_ADDRESS=/tmp/nvim.sock
+stty -ixon # To pass Ctrl-S through to VIM
 
-# -- GIT SETTINGS ----------
-export VERSIONER_PERL_PREFER_32_BIT=yes
-
-alias fir=git ; alias gut=git
+# GIT settings
 alias wow="git status"
-alias so=git
-alias such=git
-alias very=git
-alias much=git
 alias log="git log --stat"
-alias gitcleanup="git branch --merged master | grep -v '^*\|master' | xargs -n 1 git branch -d"
-
 alias gits="git config user.email richard@spiralarm.com"
 alias gitd="git config user.email richard@dallaway.com"
 alias gitu="git config user.email richard@underscoreconsulting.com"
-
-alias gbr='git for-each-ref --sort="-authordate:iso8601" --format=" %(authordate:iso8601)%09%(refname:short)" refs/heads'
-
-GIT_PS1_SHOWDIRTYSTATE=true
+alias pullall="find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master \;"
 
 # Mac nonsense
 alias fixcamera="sudo killall VDCAssistant"
+alias play=afplay
+alias fixow='/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user;killall Finder;echo "Open With has been rebuilt, Finder will relaunch"'
 
 # -- JVM -----
-
-export SCALA_HOME=/opt/scala/scala-2.12.0
+export SCALA_HOME=/opt/scala/scala-2.12.3
 export DOTTY_HOME=/opt/dotty
 
-export JAVA_OPTS="-Dfile.encoding=utf8"
+export JAVA_OPTS="-XX:MaxMetaspaceSize=512m -Dfile.encoding=utf8"
 
-export JAVA6_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
-export JAVA7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-10.jdk/Contents/Hom
 
 usejava7 () {
-  export JAVA_HOME=$JAVA7_HOME
-  export PATH=$JAVA7_HOME/bin:$PATH
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home
+  export PATH=$JAVA_HOME/bin:$PATH
 }
 
-usejava6 () {
-  export JAVA_HOME=$JAVA6_HOME
-  export PATH=$JAVA6_HOME/bin:$PATH
+usejava8 () {
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
+  export PATH=$JAVA_HOME/bin:$PATH
 }
 
-alias jmc=$JAVA_HOME/bin/jmc
+usejava9 () {
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
+  export PATH=$JAVA_HOME/bin:$PATH
+}
 
-# -- OTHER LANGUAGES -------
+# -- HASKELL --
 
-export GOPATH=$HOME/Developer/go
-export PATH=$PATH:$GOPATH/bin
+export GHCI_PATH=/Users/richard/.stack/programs/x86_64-osx/ghc-8.0.1
+export STACK_INSTALL_PATH=/Users/richard/.local/bin
 
-export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-export NVM_DIR="/Users/richard/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
+# RUST
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # -- UTILITIES -------------
 
-alias serve="python -m SimpleHTTPServer 8000"
-alias mou="open -a mou"
-alias fixow='/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user;killall Finder;echo "Open With has been rebuilt, Finder will relaunch"'
 alias laclean="rm -f *.log *.out *.fls *.aux *.fdb_latexmk *.toc"
+export TEXINPUTS="/Users/richard/Documents/proposals/lib:$TEXINPUTS"
+alias lt="latexmk -pvc -pdf -xelatex -interaction=nonstopmode"
 
 # -- AWS ------------------
 
@@ -95,22 +61,41 @@ export EC2_CERT=/opt/amazon/spiralarm/2010/cert-DLHYF5HIJOXAPTPLFOXPUUXSWGKORWNL
 export EC2_PRIVATE_KEY=/opt/amazon/spiralarm/2010/sakey
 alias sshstage="ssh -i $EC2_PRIVATE_KEY ubuntu@staging"
 alias sshprod="ssh -i $EC2_PRIVATE_KEY ubuntu@production"
-alias scp2="scp -i $EC2_PRIVATE_KEY"
-
 
 # -- PATH AND SHELL PREFS ---
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$SCALA_HOME/bin:$PATH
 export PATH=$DOTTY_HOME/bin:$PATH
+export PATH=$GHCI_PATH/bin:$STACK_INSTALL_PATH:$PATH
 export PATH=/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$PATH:/opt/mongodb-osx-x86_64-3.0.4/bin/
-export PATH=$PATH:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin
 export PATH=$PATH:/Users/richard/bin
+export PATH=$PATH:/usr/local/texlive/2017/bin/x86_64-darwin
+
+
+# BASH
+
+#if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
+#  . /usr/local/git/contrib/completion/git-completion.bash
+#fi
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+GIT_PS1_SHOWDIRTYSTATE=true
 
 PS1='\[\033[34m\]\W\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
-
 export TERM='xterm-256color'
 
+# Scripts which slow down start up:
 
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+export NVM_DIR="$HOME/.nvm"
+#  . "/usr/local/opt/nvm/nvm.sh"
+#
+#eval $(thefuck --alias)
+#
+#if [ -f ~/bin/sensible.bash ]; then
+#   source ~/bin/sensible.bash
+#fi
+#
+#test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+

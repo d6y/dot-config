@@ -1,13 +1,15 @@
 set nocompatible
 filetype plugin indent on
 
-execute pathogen#infect()
-
 " Theme
 syntax on
-set background=light  " dark or light
+set background=dark  " dark or light
 
 colorscheme off
+
+" Nice alternative:
+" colorscheme one
+" let g:airline_theme='one'
 
 " Writing
 let g:pencil#wrapModeDefault = 'soft'
@@ -18,14 +20,13 @@ augroup pencil
   autocmd FileType tex          call pencil#init() | setl spell
 augroup END
 
+" Autosave
+let g:autosave_timer = 15 "seconds
+
 " Line numbering
 "set cursorline!
 set rnu
 set nu
-
-" Keys
-let maplocalleader = "\\"
-let mapleader = ","
 
 " <C-a> and <C-x> assume decimal (not octal):
 set nrformats=
@@ -34,11 +35,16 @@ set nrformats=
 set ignorecase
 set smartcase
 
+" Escape to turn off search highlighting: https://stackoverflow.com/a/1037182
+nnoremap <esc> :noh<return><esc>
+nnoremap <esc>^[ <esc>^[
+
 " Tab completion like bash
 set wildmode=longest,list
 
 " FZF
 nmap <C-p> :FZF<CR>
+set rtp+=/usr/local/opt/fzf
 
 " ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -46,25 +52,25 @@ nmap <leader>f :Ack!<CR>      " Search using word under cursor
 map <leader>d :Ack! ""<left>
 " let g:ackpreview = 1
 
-" Airline
+" Status line
 set laststatus=2
-set noshowmode
+set noshowmode    " Hide -- INSERT -- as it is handled by Airloine or Lightline
+
+" Lightline (https://github.com/itchyny/lightline.vim)
+
+" Airline
 let g:airline_powerline_fonts = 1
-
 let g:airline#extensions#syntastic#enabled = 1
-
 let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
-
 let g:airline_section_z = '%4l/%L :%3v'
 
 " Buffer management
 nmap <C-L> :bnext<CR>
-nmap <BS> :bprevious<CR>
-
-nmap <leader>b :ls<CR>
+nmap <BS> :bprevious<CR> " neovim
+nmap  :bprevious<CR>   " vim
 
 nnoremap <silent> <Leader>w :Bclose<CR>
 nmap Q :Bclose<CR>
@@ -92,6 +98,11 @@ nmap ∆ :m +1<CR> " alt+j
 nmap <silent> <C-\> :NERDTreeToggle<CR>
 nmap <Leader>\ :NERDTreeFind<CR>
 
+" File Beagle
+" https://github.com/jeetsukumaran/vim-filebeagle
+let g:filebeagle_suppress_keymaps = 1
+map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
+
 " Tabs
 set tabstop=2       " number of visual spaces per TAB
 set shiftwidth=2    " size of an indent
@@ -100,26 +111,54 @@ set expandtab       " tabs are spaces
 
 " Save file settings
 map <Leader>s :w<CR>
+imap \; <ESC>:w<CR>
 map <Leader>S :wa<CR>
+
+map <C-S> :w<CR>
+imap <C-S> <ESC>:w<CR>
+
+" Rust
+" let g:rustfmt_autosave = 1
 
 " Scala plugin
 " The syntastic scala checkers are too slow for me:
 let g:syntastic_scala_checkers = []
 
-" ENSIME Settings
-" au FileType scala nnoremap <LocalLeader>g :EnDeclaration<CR>
-" au FileType scala nnoremap <LocalLeader>G :EnDeclarationSplit<CR>
-" au FileType scala nnoremap <LocalLeader>t :EnType<CR>
-" au FileType scala nnoremap <LocalLeader>T :EnTypeCheck<CR>
-"" au BufWritePost *.scala :EnTypeCheck
 let g:syntastic_full_redraws=0 " Flickering screen fix?
 let g:syntastic_ignore_files = ['\m\.sbt$']
 
-" https://github.com/aloiscochard/sarsi
-"call rpcstart('sarsi-nvim')
+" Move swap files out of working directories
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
 
-" GO
-" let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-" let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+" https://github.com/pjrt/stags
+function! QualifiedTagJump() abort
+  let l:plain_tag = expand("<cword>")
+  let l:orig_keyword = &iskeyword
+  set iskeyword+=\.
+  let l:word = expand("<cword>")
+  let &iskeyword = l:orig_keyword
 
+  let l:splitted = split(l:word, '\.')
+  let l:acc = []
+  for wo in l:splitted
+    let l:acc = add(l:acc, wo)
+    if wo ==# l:plain_tag
+      break
+    endif
+  endfor
+
+  let l:combined = join(l:acc, ".")
+  try
+    execute "ta " . l:combined
+  catch /.*E426.*/ " Tag not found
+    execute "ta " . l:plain_tag
+  endtry
+endfunction
+
+nnoremap <silent> <C-]> :<C-u>call QualifiedTagJump()<CR>
+
+" https://github.com/rust-lang/rust.vim
+let g:rustfmt_autosave = 1
 
