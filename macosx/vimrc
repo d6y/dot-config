@@ -72,8 +72,6 @@ nmap <C-L> :bnext<CR>
 nmap <BS> :bprevious<CR> " neovim
 nmap  :bprevious<CR>   " vim
 
-nmap <leader>b :ls<CR>
-
 nnoremap <silent> <Leader>w :Bclose<CR>
 nmap Q :Bclose<CR>
 
@@ -126,17 +124,41 @@ imap <C-S> <ESC>:w<CR>
 " The syntastic scala checkers are too slow for me:
 let g:syntastic_scala_checkers = []
 
-" ENSIME Settings
-au FileType scala nnoremap <LocalLeader>g :EnDeclaration<CR>
-au FileType scala nnoremap <LocalLeader>G :EnDeclarationSplit<CR>
-au FileType scala nnoremap <LocalLeader>t :EnType<CR>
-au FileType scala nnoremap <LocalLeader>T :EnTypeCheck<CR>
-"" au BufWritePost *.scala :EnTypeCheck
 let g:syntastic_full_redraws=0 " Flickering screen fix?
 let g:syntastic_ignore_files = ['\m\.sbt$']
 
-" GO
-" let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-" let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+" Move swap files out of working directories
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
 
+" https://github.com/pjrt/stags
+function! QualifiedTagJump() abort
+  let l:plain_tag = expand("<cword>")
+  let l:orig_keyword = &iskeyword
+  set iskeyword+=\.
+  let l:word = expand("<cword>")
+  let &iskeyword = l:orig_keyword
+
+  let l:splitted = split(l:word, '\.')
+  let l:acc = []
+  for wo in l:splitted
+    let l:acc = add(l:acc, wo)
+    if wo ==# l:plain_tag
+      break
+    endif
+  endfor
+
+  let l:combined = join(l:acc, ".")
+  try
+    execute "ta " . l:combined
+  catch /.*E426.*/ " Tag not found
+    execute "ta " . l:plain_tag
+  endtry
+endfunction
+
+nnoremap <silent> <C-]> :<C-u>call QualifiedTagJump()<CR>
+
+" https://github.com/rust-lang/rust.vim
+let g:rustfmt_autosave = 1
 
